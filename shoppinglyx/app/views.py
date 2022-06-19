@@ -54,6 +54,20 @@ def mobile(request, data=None):
 
  return render(request, 'app/mobile.html',{'mobiles': mobiles})
 
+def topwear(request, data=None):
+	if data == None:
+		topwears = Product.objects.filter(category='TW')
+	elif data == 'Park' or data == 'Polo':
+		topwears = Product.objects.filter(category='TW').filter(brand=data)
+	return render(request, 'app/topwear.html',{'topwears':topwears})
+
+def bottomwear(request, data=None):
+	if data == None:
+		bottomwears = Product.objects.filter(category='BW')
+	elif data == 'Lee' or data == 'Spykar':
+		bottomwears = Product.objects.filter(category='BW').filter(brand=data)
+	return render(request, 'app/bottomwear.html',{'bottomwears':bottomwears})
+
 def login(request):
  return render(request, 'app/login.html')
 
