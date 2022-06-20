@@ -1,8 +1,11 @@
 from itertools import product
 from unicodedata import category
+from webbrowser import get
 from django.shortcuts import render
 from django.views import View
 from .models import Customer, Product, Cart, OrderPlaced
+from .forms import CustomerRegistrationForm
+from django.contrib import messages
 # def home(request):
 #  return render(request, 'app/home.html')
 
@@ -71,8 +74,18 @@ def bottomwear(request, data=None):
 def login(request):
  return render(request, 'app/login.html')
 
-def customerregistration(request):
- return render(request, 'app/customerregistration.html')
-
+# def customerregistration(request):
+#  return render(request, 'app/customerregistration.html')
+class CustomerRegistrationView(View):
+   def get(self, request):
+      form = CustomerRegistrationForm()
+      return render(request,'app/customerregistration.html',{'form' : form})
+   def post(self, request):
+      form = CustomerRegistrationForm(request.POST)
+      if form.is_valid():
+         messages.success(request, 'Congratulations!! Registered Successfully')
+         form.save()
+      return render(request,'app/customerregistration.html',{'form' : form})
+   
 def checkout(request):
  return render(request, 'app/checkout.html')
